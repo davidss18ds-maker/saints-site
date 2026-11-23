@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Aprovação do projeto · Saints Projetos</title>
+<link rel="icon" href="icon-192.png">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#0E0F13;color:#fff;min-height:100vh}
+header{padding:26px 20px 10px;text-align:center}header img{width:52px;height:52px;border-radius:14px}
+h1{font-size:24px;margin:12px 0 4px;letter-spacing:-.02em}header p{color:#A1A1AA;margin:0}
+main{max-width:640px;margin:16px auto 40px;padding:0 14px}
+.card{background:#fff;color:#0A0A0B;border-radius:22px;padding:20px;box-shadow:0 20px 60px rgba(200,16,46,.22);margin-bottom:14px}
+.k{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#71717A}
+.t{font-size:20px;font-weight:800;margin:4px 0 2px}.s{color:#52525B;font-size:14px}
+.pdf{width:100%;aspect-ratio:3/4;border:0;border-radius:14px;background:#F4F4F5;margin-top:14px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;font:inherit;font-weight:800;font-size:17px;padding:15px;border:0;border-radius:14px;cursor:pointer;text-decoration:none;margin-top:12px}
+.ok{background:linear-gradient(135deg,#16A34A,#22C55E);color:#fff}.aj{background:#fff;color:#0A0A0B;border:2px solid #0A0A0B}.ver{background:#F4F4F5;color:#0A0A0B}
+textarea{width:100%;min-height:110px;font:inherit;font-size:16px;padding:12px;border:1.5px solid #E4E4E7;border-radius:12px;margin-top:10px}
+.fim{text-align:center;padding:30px 20px}.fim b{font-size:52px;display:block}
+.er{color:#C8102E;font-size:14px;margin-top:8px;display:none}small{display:block;text-align:center;color:#71717A;margin-top:16px}
+</style>
+</head>
+<body>
+<header><img src="icon-192.png" alt="Saints Projetos"><h1>Aprovação do projeto</h1><p>Saints Projetos · desenhos técnicos 2D e 3D</p></header>
+<main id="m"></main>
+<script>
+(function(){
+var WA='5511991438617',URL_PLANILHA='',m=document.getElementById('m'),d=null;
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+try{var h=location.hash.slice(1).replace(/-/g,'+').replace(/_/g,'/');d=JSON.parse(decodeURIComponent(escape(atob(h))));}catch(e){d=null;}
+if(!d||!d.i){m.innerHTML='<div class="card fim"><b>🔗</b><h2>Link incompleto</h2><p>Peça ao David para enviar o link de novo.</p><a class="btn ver" href="https://wa.me/'+WA+'">Falar com o David</a></div>';return;}
+fetch('orcamento.html',{cache:'no-store'}).then(function(r){return r.ok?r.text():'';}).then(function(t){var x=t.match(/URL_PLANILHA=("[^"]*")/);if(x){try{URL_PLANILHA=JSON.parse(x[1]);}catch(e){}}}).catch(function(){});
+var prev='';var g=String(d.l||'').match(/drive\.google\.com\/file\/d\/([^\/?#]+)/);if(g){prev='https://drive.google.com/file/d/'+g[1]+'/preview';}
+m.innerHTML='<div class="card"><div class="k">Projeto '+esc(d.n||'')+(d.v?' · Revisão '+esc(d.v):'')+'</div><div class="t">'+esc(d.t)+'</div><div class="s">'+(d.c?'Para '+esc(d.c):'')+'</div>'+(prev?'<iframe class="pdf" src="'+prev+'" allow="autoplay" title="Desenho do projeto"></iframe>':'')+(d.l?'<a class="btn ver" href="'+esc(d.l)+'" target="_blank" rel="noopener">📄 Abrir o desenho (PDF)</a>':'')+'</div>'+
+'<div class="card" id="dec"><div class="k">Sua decisão</div><p class="s" style="margin:6px 0 0">Confira as medidas e os detalhes. Se estiver tudo certo, aprove. Se quiser mudar algo, descreva o ajuste.</p><textarea id="txt" placeholder="Comentário ou ajuste (opcional para aprovar)"></textarea><button class="btn ok" id="bok">✓ Aprovar o projeto</button><button class="btn aj" id="baj">✎ Pedir ajuste</button><div class="er" id="er"></div></div><small>A sua resposta vai direto para o David.</small>';
+function enviar(ok){var txt=document.getElementById('txt').value.trim(),er=document.getElementById('er');if(!ok&&!txt){er.textContent='Descreva o ajuste que você quer.';er.style.display='block';return;}
+  document.getElementById('bok').disabled=document.getElementById('baj').disabled=true;
+  var dados=new URLSearchParams({nome:d.c||'Cliente',whatsapp:d.w||'00000000000',email:'',tipo:'APROVACAO',descricao:JSON.stringify({i:d.i,d:ok?'ok':'ajuste',m:txt}),prazo:'',origem:'Aprovação'});
+  var fim=function(){document.getElementById('dec').innerHTML='<div class="fim"><b>'+(ok?'✅':'✎')+'</b><h2>'+(ok?'Projeto aprovado!':'Pedido de ajuste enviado!')+'</h2><p class="s">Obrigado'+(d.c?', '+esc(d.c.split(' ')[0]):'')+'! '+(ok?'O David já foi avisado e segue com a próxima etapa.':'O David vai fazer o ajuste e te enviar a nova versão.')+'</p><a class="btn ver" href="https://wa.me/'+WA+'?text='+encodeURIComponent('Olá, David! '+(ok?'Aprovei':'Pedi um ajuste n')+'o projeto "'+d.t+'".')+'">Falar com o David</a></div>';};
+  var whats=function(){location.href='https://wa.me/'+WA+'?text='+encodeURIComponent('Olá, David! '+(ok?'Aprovo':'Quero um ajuste n')+'o projeto '+(d.n||'')+' "'+d.t+'".'+(txt?'\n'+txt:''));};
+  var go=function(){if(!URL_PLANILHA){whats();return;}fetch(URL_PLANILHA,{method:'POST',mode:'no-cors',body:dados}).then(fim).catch(whats);};
+  if(URL_PLANILHA){go();}else{setTimeout(go,1200);}
+}
+document.getElementById('bok').addEventListener('click',function(){enviar(true);});
+document.getElementById('baj').addEventListener('click',function(){enviar(false);});
+})();
+</script>
+</body>
+</html>
